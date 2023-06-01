@@ -1,0 +1,55 @@
+
+
+ 
+ 
+   input
+src(close);
+l(4);   //Usar valo em dobro 
+var
+op,k,pdm,x,y,mdm,pdms,mdms,s,pdi,mdi,pdis,
+mdis,d,s1,is,hhv,llv,d1,vi,vma: float;
+co: integer;
+begin
+k := 1.0/l;
+x := (src - src[1]);
+y := (src[1] - src);
+op:= opend(0);
+if x > 0 then
+pdm := x
+else if x <= 0 then
+pdm := 0;
+if y > 0 then
+mdm := y
+else if y <= 0 then
+mdm := 0;
+pdmS := ((1 - k)*(pdmS[1]) + k*pdm);
+mdmS := ((1 - k)*(mdmS[1]) + k*mdm);
+s := pdmS + mdmS;
+pdi := pdmS/s;
+mdi := mdmS/s;
+pdiS := ((1 - k)*(pdiS[1]) + k*pdi);
+mdiS := ((1 - k)*(mdiS[1]) + k*mdi);
+d := abs(pdiS - mdiS);
+s1 := pdiS + mdiS;
+iS := ((1 - k)*(iS[1]) + k*d/s1);
+hhv := highest(iS, l);
+llv := lowest(iS, l);
+d1 := hhv - llv;
+vI := (iS - llv)/(d1+0.00001);
+vma := (1 - k*vI)*(vma[1]) + k*vI*src;
+if vma > vma[1] then
+begin
+setplotcolor(1,clgreen);
+end;
+if vma < vma[1] then
+begin
+setplotcolor(1,clred);
+end;
+if vma = vma[1] then
+begin
+setplotcolor(1,clwhite);
+end;
+plot(vma);
+end;
+
+  
