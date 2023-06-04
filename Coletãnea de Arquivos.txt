@@ -1,0 +1,438 @@
+
+
+//___WIN__Est_PrecoFixoCompraVenda
+
+//Versão 1 - Fev 2023
+
+ 
+input
+Resistencia(111630); // Verde
+Suporte(111224);     // Vermelho
+ 
+
+  //Alterar parâmetros somente até aqui
+  ///////////////////////////////////////
+  ///////////////////////////////////////
+                    
+
+
+begin 
+
+Plot(suporte); 
+Plot2(resistencia);
+
+if (close > resistencia) and (close[1] < resistencia) 
+    then  
+        begin
+            buyatmarket;
+           Paintbar(clgreen);
+        end
+else        
+if (close < suporte) and (close[1] > suporte)
+    then  
+        begin
+            SellShortatmarket;
+           Paintbar(clRed);
+        end;        
+           
+End;
+                   
+
+//--------------------------------------------------------------
+//Canal_450_para editar
+//Versão 1 - Fev 2023
+
+ 
+
+   //Alterar parâmetros somente até aqui
+
+input
+Resistencia(111630); // Verde
+Suporte(111224);     // Vermelho
+             
+
+
+begin 
+
+        begin         
+
+           Plot(suporte); 
+            Paintbar(clgreen);
+
+        end;
+
+        begin
+                Plot2(resistencia);
+            Paintbar(clRed);
+        end;        
+           
+End;
+       
+
+
+
+//-------------------------------------------------------
+        
+// Plot
+
+begin
+                Plot2(resistencia);
+            Paintbar(clRed);
+        end;        
+                 
+End;
+//-------------------------------------------------------
+
+//Cruzamento_vma4_vma8
+
+
+// Cruzamento_vma4_vma8
+
+
+Var
+Curta, Longa: Float;
+
+
+Begin //Begin Inicial
+
+//CALCULO DAS MEDIAS
+Curta := vma(Close,4);
+
+Longa := vma(Close,8);
+
+ begin
+ if (Curta > Longa) and (Curta[1] < Longa[1]) then BuyAtMarket
+        
+ else
+
+ if (Curta < Longa) and (Curta[1] > Longa[1])  then SellShortAtMarket;
+ end;
+  
+
+
+End; //End Final
+//-------------------------------------------------------
+
+// Est_UmaMedia
+
+
+//Versão 1 - Nov 2022
+
+
+
+Parametro
+               
+
+HorarioInicial(0900);
+HorarioFinal(1730);
+
+PeriodoMedia(40); 
+
+ 
+
+//Alterar parâmetros somente até aqui
+///////////////////////////////////////
+///////////////////////////////////////
+
+
+var
+vmedia : float;              
+vClose: float;
+
+
+begin  
+
+//INDICADORES UTILIZADOS
+
+vClose := close[0];            
+vMedia  := MediaExp(periodoMedia, close);
+ 
+
+Plot(vMedia[1]);
+ 
+//HORARIO OPERACIONAL
+if (time > horariofinal) or (time < HorarioInicial) then
+    begin
+        PaintBar(Clbranco);
+        ClosePosition;
+    end
+else
+    begin //Abre horario operacional
+
+        //LOGICA OPERACIONAL
+        if (IsBought or IsSold) then
+            //Está posicionado
+            begin
+
+                 //Fechou Media para reverter
+                 if (IsBought) and (close < vMedia) then reversePosition
+                 else
+                 if (isSold) and (close > Vmedia) then ReversePosition;
+                   
+            end
+        else
+            //Está zerado
+            begin         
+                          
+                if (vClose < vMedia) then sellshortAtmarket 
+                else
+                if (vClose > vMedia) then buyatmarket;       
+
+
+            end;
+      end; //Fecha horario operacional
+
+ 
+                 
+End; //Fecha o primeiro Begin
+//-------------------------------------------------------
+//Média de 20 C_V
+
+Inicio
+     //LOGICA OPERACIONAL
+        Se (IsBought or IsSold) então // Comprado ou Vendido
+            //Está posicionado
+            Inicio
+
+                 //Fechou Media para reverter
+                Se(IsBought) e (close < Media(20,Close)[1]) então reversePosition  //Comprado
+                Senão
+                Se (isSold) e (close > Media(20,Close)[1]) então ReversePosition;  // Vendido
+                      
+            Fim
+  Senão
+    Inicio
+      Se (Fechamento > Media(40,Close)[1]) então
+        BuyAtMarket
+      Senão Se (Fechamento < Media(20,Close)[1]) então
+        SellShortAtMarket;
+    Fim;
+Fim;
+//-------------------------------------------------------
+//Nuvem
+
+input
+
+PeriodoMedia1(20);
+PeriodoMedia2(40);
+
+
+Var
+vMedia1, vMedia2 : float;
+
+
+
+begin
+
+//CALCULO DAS MÉDIAS
+
+vMedia1 := MediaExp(PeriodoMedia1, close);
+vMedia2 := MediaExp(PeriodoMedia2, close);
+
+
+Plot(vMedia1);
+Plot2(vMedia2);
+
+
+end;
+//-------------------------------------------------------
+
+//S_1_8MArit_20MArit
+Inicio
+     //LOGICA OPERACIONAL
+        Se (IsBought or IsSold) então // Comprado ou Vendido
+            //Está posicionado
+            Inicio
+
+                 //Fechou Media para reverter
+                Se(IsBought) e (close < Media(8,Close)[1]) então reversePosition  //Comprado
+                Senão
+                Se (isSold) e (close > Media(8,Close)[1]) então ReversePosition;  // Vendido
+                      
+            Fim
+  Senão
+    Inicio
+      Se (Fechamento > Media(8,Close)[1]) então
+        BuyAtMarket
+      Senão Se (Fechamento < Media(20,Close)[1]) então
+        SellShortAtMarket;
+    Fim;
+Fim;
+
+//-------------------------------------------------------
+//Sup_Resit
+//Versão 1 - Fev 2023
+
+ 
+input
+Resistencia(108205);
+Suporte(107766);
+ 
+
+  //Alterar parâmetros somente até aqui
+  ///////////////////////////////////////
+  ///////////////////////////////////////
+                    
+
+
+begin 
+
+Plot(suporte);
+Plot2(resistencia);
+
+if (close > resistencia) and (close[1] < resistencia) 
+    then  
+        begin
+            buyatmarket;
+            Paintbar(clgreen);
+        end
+else        
+if (close < suporte) and (close[1] > suporte)
+    then  
+        begin
+            SellShortatmarket;
+            Paintbar(clRed);
+        end;        
+           
+End;
+       
+//-------------------------------------------------------
+// VMA (4)
+
+input
+src(close);
+l(4);   //Usar valor em dobro 
+var
+op,k,pdm,x,y,mdm,pdms,mdms,s,pdi,mdi,pdis,
+mdis,d,s1,is,hhv,llv,d1,vi,vma: float;
+co: integer;
+begin
+k := 1.0/l;
+x := (src - src[1]);
+y := (src[1] - src);
+op:= opend(0);
+if x > 0 then
+pdm := x
+else if x <= 0 then
+pdm := 0;
+if y > 0 then
+mdm := y
+else if y <= 0 then
+mdm := 0;
+pdmS := ((1 - k)*(pdmS[1]) + k*pdm);
+mdmS := ((1 - k)*(mdmS[1]) + k*mdm);
+s := pdmS + mdmS;
+pdi := pdmS/s;
+mdi := mdmS/s;
+pdiS := ((1 - k)*(pdiS[1]) + k*pdi);
+mdiS := ((1 - k)*(mdiS[1]) + k*mdi);
+d := abs(pdiS - mdiS);
+s1 := pdiS + mdiS;
+iS := ((1 - k)*(iS[1]) + k*d/s1);
+hhv := highest(iS, l);
+llv := lowest(iS, l);
+d1 := hhv - llv;
+vI := (iS - llv)/(d1+0.00001);
+vma := (1 - k*vI)*(vma[1]) + k*vI*src;
+if vma > vma[1] then
+begin
+setplotcolor(1,clgreen);
+BuyAtMarket; // Buy signal
+end;
+if vma < vma[1] then
+begin
+setplotcolor(1,clred);    
+SellShortAtMarket; // Sell signal
+end;
+if vma = vma[1] then
+
+begin
+  setplotcolor(1,clwhite);
+  ClosePosition; // or whatever the correct function name is
+end;
+
+plot(vma);
+end;
+//-------------------------------------------------------
+// VMA_C_V_Stop (4)
+
+input
+src(close);
+l(4);   //Usar valor em dobro 
+var
+op,k,pdm,x,y,mdm,pdms,mdms,s,pdi,mdi,pdis,
+mdis,d,s1,is,hhv,llv,d1,vi,vma: float;
+co: integer;
+begin
+k := 1.0/l;
+x := (src - src[1]);
+y := (src[1] - src);
+op:= opend(0);
+if x > 0 then
+pdm := x
+else if x <= 0 then
+pdm := 0;
+if y > 0 then
+mdm := y
+else if y <= 0 then
+mdm := 0;
+pdmS := ((1 - k)*(pdmS[1]) + k*pdm);
+mdmS := ((1 - k)*(mdmS[1]) + k*mdm);
+s := pdmS + mdmS;
+pdi := pdmS/s;
+mdi := mdmS/s;
+pdiS := ((1 - k)*(pdiS[1]) + k*pdi);
+mdiS := ((1 - k)*(mdiS[1]) + k*mdi);
+d := abs(pdiS - mdiS);
+s1 := pdiS + mdiS;
+iS := ((1 - k)*(iS[1]) + k*d/s1);
+hhv := highest(iS, l);
+llv := lowest(iS, l);
+d1 := hhv - llv;
+vI := (iS - llv)/(d1+0.00001);
+vma := (1 - k*vI)*(vma[1]) + k*vI*src;
+if vma > vma[1] then
+begin
+setplotcolor(1,clgreen);
+BuyAtMarket; // Buy signal
+end;
+if vma < vma[1] then
+begin
+setplotcolor(1,clred);    
+SellShortAtMarket; // Sell signal
+end;
+if vma = vma[1] then
+
+begin
+  setplotcolor(1,clwhite);
+  ClosePosition; // or whatever the correct function name is
+end;
+
+plot(vma);
+end;
+//-------------------------------------------------------
+
+
+
+
+//-------------------------------------------------------
+
+
+
+
+
+//-------------------------------------------------------
+
+
+
+
+//-------------------------------------------------------
+
+
+
+
+//-------------------------------------------------------
+
+
+
+       
